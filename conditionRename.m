@@ -25,42 +25,48 @@ function conditionRename( subjectDir )
 
 % Get directory information, and load .xlsx file
 fileNames           = dir([subjectDir, '\*.raw']);
-xlsxFind            = [subjectDir, '\*.xlsx'];
-dataFile            = dir(xlsxFind);
+dataFile            = dir([subjectDir, '\*.xlsx']);
+dataFileImport      = importdata([subjectDir, '\', dataFile.name]);
 [ ~, fileName, ~ ]  = fileparts(dataFile.name);
-dataFile            = importdata([subjectDir, '\', dataFile.name]);
 
 % Create .log file
-fileID = fopen(['changelog.' subjectDir '\' fileName '.log'], 'w');
+fileID = fopen([subjectDir '\' fileName '.changelog.log'], 'w');
+
+% Remove invisible files from fileNames
+for i = length(fileNames):-1:1
+    if fileNames(i).name(1) == '.';
+        fileNames(i) = [];
+    end
+end
 
 % Get song codes (conditions) from file, generate file name in NBT format, 
 % and rename files
-for i = 1:length(fileNames)
+for ii = 1:length(fileNames)
     
-    if i == 1       % Eyes Closed Rest
+    if ii == 1       % Eyes Closed Rest
         newName     = [fileName, '.ECR.raw'];
-    elseif i == 2   % Test Trial
+    elseif ii == 2   % Test Trial
         newName     = [fileName, '.TST.raw'];
-    elseif i >= 3   % Experimental trials
-        row = 67 + 5 * (i - 3);
-        condition   = strrep(dataFile{row}, '"','');
+    elseif ii >= 3   % Experimental trials
+        row = 67 + 5 * (ii - 3);
+        condition   = strrep(dataFileImport{row}, '"','');
         condition   = condition(16:19);
         
-        if i >= 3 && i < 15     % Regular trials
+        if ii >= 3 && ii < 15     % Regular trials
             newName     = [fileName, '.', condition, '.raw'];
-        elseif i >= 15          % Repeated trials
+        elseif ii >= 15          % Repeated trials
             newName     = [fileName, '.', condition, 'R.raw'];
         end
         
-        newName(21) = [];
+        newName(23) = [];
     end
     
     % Rename file, print status, and write .log file of changes to
     % directory
-    movefile([subjectDir '\' fileNames(i).name], [subjectDir '\' newName]);
-    fprintf('Converting %s to %s...\n', fileNames(i).name, newName);
-    %fprintf(fileID, 'Converted %s to %s...\r\n', fileNames(i).name, newName);
+    movefile([subjectDir '\' fileNames(ii).name], [subjectDir '\' newName]);
+    fprintf('Converting %s to %s...\n', fileNames(ii).name, newName);
+    fprintf(fileID, 'Converted %s to %s...\r\n', fileNames(ii).name, newName);
 end
 
-%fclose(fileID);
+fclose(fileID);
 end
