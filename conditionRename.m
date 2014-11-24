@@ -9,10 +9,13 @@ function conditionRename( subjectDir )
 %                   .csv output).
 %
 %                   subjectDir needs to be in NBT format, e.g.:
-%                   E:\Thomas\Data\MP14.S0001.141114
+%                   E:\Thomas\Data\MP14.S0001.20141114
 %               
 %                   .xlsx file needs to be in NBT format, e.g.:
-%                   E:\Thomas\Data\MP14.S0001.141114.xlsx
+%                   E:\Thomas\Data\MP14.S0001.20141114.xlsx
+%
+%                       This file has to be converted manually from the
+%                       .csv output from Open Sesame...
 %
 %   Output:
 %        None. The files in subjectDir are renamed, and a changelog is
