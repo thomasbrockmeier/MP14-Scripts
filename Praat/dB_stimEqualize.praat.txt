@@ -1,0 +1,29 @@
+#this scripts reads all sounds from the directory specified in 'd$'
+#and equalizes them in max amplitude with prevention of clipping
+#and write them to the directory specified in 'out$'
+
+
+target_dB = 65
+d$  =  "E:\Thomas\Stimuli\Pieces (truncated 0-2 min)\"
+out$ = "E:\Thomas\Stimuli\Stimuli (0-2 min, normalized volume, fade in-out)\"
+Create Strings as file list... list 'd$'/*.wav
+numberOfFiles = Get number of strings
+
+for ifile from 1 to numberOfFiles
+   select Strings list
+   a$ = Get string... 'ifile'
+   Read from file... 'd$''a$'
+   #query for dB
+   now = Get intensity (dB)
+    #calculate difference and factor
+   dif = target_dB - now
+   f = 10^(dif/20)
+   #change amplitude ==> dB
+   Formula... self  * 'f'
+   test = Get absolute extremum... 0 0 None
+   if (test*test) > 1
+       printline clipping occured for sound 'a$', not saved
+   else
+      Write to WAV file... 'out$''a$'.wav
+   endif
+endfor
