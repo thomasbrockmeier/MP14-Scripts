@@ -40,18 +40,16 @@ for i = 1:length(segments)
     subplot(3, 1, 3)
     plot(eval(['monoAmp' segments(i, :)]))
         env = eval(['monoAmp' segments(i, :)]);
-        plot(env((0.5 * length(env)):length(env)))  % Compensate for loudness curve idiosyncrasies
+        plot(env((0.5 * length(env)):length(env)))
     xlabel('Time (Samples (SR = 2756 Hz))')
     ylabel('Amplitude()')
     xlim([0 (0.5 * length(eval(['monoAmp' segments(i, :)])))])
     title('Loudness Envelope of the Auditory Signal')
-    
    %%   Title
-   titleString = ['Rhythm, Pitch, and Loudness Contours for Segment ' segments(i, :)];
+   titleString = [
    ha = axes('Position', [0 0 1 1], 'Xlim', [0 1], 'Ylim', [0 1], 'Box', ...
        'off', 'Visible', 'off', 'Units', 'normalized', 'clipping' , 'off');
    text(0.5, 1, titleString, 'HorizontalAlignment', 'center', ...
        'VerticalAlignment', 'top', 'FontWeight', 'bold')
-   
 end
 end
