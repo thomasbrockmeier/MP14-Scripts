@@ -2,7 +2,7 @@ function [ DFA_Exp, DFAVecShuff ] = pitchDFA_MIDI(noteMatrix, Fs, nShuff)
 % Calculate spectral exponent for pitch distribution of MIDI transcribed 
 % composition
 
-% Get successive intervals cf. Hsu & hsu (1990)
+% Get successive intervals cf. Hsu & Hsu (1990)
 notes = noteMatrix(:, 4);
 intervals = zeros(length(notes), 1);
 for i = length(notes):-1:2

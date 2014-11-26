@@ -22,7 +22,7 @@ audioLength = length(rightChannel) / SRDS;
 calcMax     = ceil(audioLength - audioLength / 10);
 
 % Set filter properties and compute amplitude envelopes
-%   hpCut: 60 seconds (half of the 120 second signal)
+%   hpCut: 60 seconds (= 0.0167 Hz; half of the 120 second signal)
 %   lpCut: 10 Hz (cf. Voss & Clark)
 hpCut = 1/60;
 lpCut = 10;
