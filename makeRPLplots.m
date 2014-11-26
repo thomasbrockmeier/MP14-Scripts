@@ -40,8 +40,8 @@ for i = 1:length(segments)
     subplot(3, 1, 3)
     plot(eval(['monoAmp' segments(i, :)]))
         env = eval(['monoAmp' segments(i, :)]);     % Compensate for loudness curve...
-        plot(env((0.5 * length(env)):length(env)))  % ... compression idiosyncrasies
-    xlabel('Time (Samples (SR = 2756 Hz))')
+        plot(env((0.5 * length(env)):length(env)))  % ... compression idiosyncrasies...
+    xlabel('Time (Samples (SR = 2756 Hz))')         % ... in time dimension.
     ylabel('Amplitude(ADD UNIT)')
     xlim([0 (0.5 * length(eval(['monoAmp' segments(i, :)])))])
     title('Loudness Envelope of the Auditory Signal')
