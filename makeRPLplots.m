@@ -10,6 +10,8 @@ load('E:\Thomas\Data\Music Analysis\intervals_noteDurs_vectors.mat')
 segments = ['BH1'; 'BH2'; 'BR1'; 'BR2'; 'CH1'; 'CH2'; 'GR1'; 'GR2'; ...
     'HD1'; 'HD2'; 'MZ1'; 'MZ2'];
 
+fontSize = 8;
+
 % Create figure for every segment
 for i = 1:length(segments)
     %   Generate empty figure
@@ -23,15 +25,15 @@ for i = 1:length(segments)
     %   the rhythm, only successive onsets.
     subplot(3, 3, 1:2)
     plot(eval(['noteDurs' segments(i, :)]))
-    xlabel('Successive Note Onset')
-    ylabel('Note Duration (Beats)')
+    xlabel('Successive Note Onset', 'Fontsize', fontSize)
+    ylabel('Note Duration (Beats)', 'Fontsize', fontSize)
     xlim([0 length(eval(['noteDurs' segments(i, :)]))])
-    title('Note Durations per Onset')
+    title('Note Durations per Onset', 'Fontsize', fontSize)
     
     subplot(3, 3, 3)
     compDFA(eval(['noteDurs' segments(i, :)]), 10, 1)
-    xlabel('log_{10}(onset), [Successive Onsets]', 'Fontsize', 10)
-    ylabel('log_{10} F(onset)', 'Fontsize', 10)
+    xlabel('log_{10}(onset), [Successive Onsets]', 'Fontsize', fontSize)
+    ylabel('log_{10} F(onset)', 'Fontsize', fontSize)
     
     %   Pitch Subplot (cf. Hsu & Hsu, 1990):
     %
@@ -40,15 +42,15 @@ for i = 1:length(segments)
     %   harmonic information invoked by chords is preserved.
     subplot(3, 3, 4:5)
     plot(eval(['intervals' segments(i, :)]))
-    xlabel('Successive Interval')
-    ylabel('Note Interval (Semitones)')
+    xlabel('Successive Interval', 'Fontsize', fontSize)
+    ylabel('Note Interval (Semitones)', 'Fontsize', fontSize)
     xlim([0 length(eval(['intervals' segments(i, :)]))])
-    title('Size of Successive Pitch Intervals')
+    title('Size of Successive Pitch Intervals', 'Fontsize', fontSize)
     
     subplot(3, 3, 6)
     compDFA(eval(['intervals' segments(i, :)]), 10, 1)
-    xlabel('log_{10}(interval), [Successive Intervals]', 'Fontsize', 10)
-    ylabel('log_{10} F(interval)', 'Fontsize', 10)
+    xlabel('log_{10}(interval), [Successive Intervals]', 'Fontsize', fontSize)
+    ylabel('log_{10} F(interval)', 'Fontsize', fontSize)
     
     %   Loudness Subplot (cf. Voss & Clark, 1975; Linkenkaer Hansen et al., 2001)
     %
@@ -58,17 +60,17 @@ for i = 1:length(segments)
     %   2756 Hz = 44100 Hz / 16
     subplot(3, 3, 7:8)
     plot(eval(['monoAmp' segments(i, :)]))
-        env = eval(['monoAmp' segments(i, :)]);     % Compensate for loudness curve...
-        plot(env((0.5 * length(env)):length(env)))  % ... compression idiosyncrasies...
-    xlabel('Time (Samples (SR = 2756 Hz))')         % ... in time dimension.        
-    ylabel('Amplitude(ADD UNIT)')
+        env = eval(['monoAmp' segments(i, :)]);                     % Compensate for loudness curve...
+        plot(env((0.5 * length(env)):length(env)))                  % ... compression idiosyncrasies...
+    xlabel('Time (Samples (SR = 2756 Hz))', 'Fontsize', fontSize)   % ... in time dimension.
+    ylabel('Amplitude(ADD UNIT)', 'Fontsize', fontSize)
     xlim([0 (0.5 * length(eval(['monoAmp' segments(i, :)])))])
     title('Loudness Envelope of the Auditory Signal')
     
     subplot(3, 3, 9)
     compDFA(eval(['monoAmp' segments(i, :)]), 2756, 1)
-    xlabel('log_{10}(time), [Seconds]', 'Fontsize', 10)
-    ylabel('log_{10} F(time)', 'Fontsize', 10)
+    xlabel('log_{10}(time), [Seconds]', 'Fontsize', fontSize)
+    ylabel('log_{10} F(time)', 'Fontsize', fontSize)
     
    %    Title
    headerString = ['Rhythm, Pitch, and Loudness Contours for Segment ' ...
@@ -77,7 +79,7 @@ for i = 1:length(segments)
    axes('Position', [0 0 1 1], 'Xlim', [0 1], 'Ylim', [0 1], 'Box', ...
        'off', 'Visible', 'off', 'Units', 'normalized', 'clipping' , 'off');
    text(0.5, 1, headerString, 'HorizontalAlignment', 'center', ...
-       'VerticalAlignment', 'top', 'FontWeight', 'bold');
+       'VerticalAlignment', 'top', 'FontWeight', 'bold', 'Fontsize', fontSize);
        
    hold off
 end
