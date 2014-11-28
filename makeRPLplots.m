@@ -16,7 +16,7 @@ mult     = 2.5;
 % Create figure for every segment
 for i = 1:length(segments)
     %   Generate empty figure
-    figure('units', 'inches', 'position', [0 0 (mult * 4) (mult * 3)])
+    f = figure('units', 'inches', 'position', [0 0 (mult * 4) (mult * 3)]);
         
     %   Rhythm Subplot (cf. Levitin et al., 2012):
     %
@@ -96,5 +96,9 @@ for i = 1:length(segments)
        'VerticalAlignment', 'top', 'FontWeight', 'bold', 'Fontsize', fontSize);
        
    hold off
+   
+%    %    Print to file
+%    fn = ['C:\Users\thomas\Desktop\' segments(i, :) '.jpeg'];
+%    print(f, fn, '-djpeg');
 end
 end
