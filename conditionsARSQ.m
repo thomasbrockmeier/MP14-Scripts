@@ -17,6 +17,8 @@ familiar = zeros(nSubjects, 1);
 concetration = zeros(nSubjects, 1);
 eyesOpen = zeros(nSubjects, 1);
 
+sPlotID = [1 5 9 2 6 10 3 7 11 4 8 12];
+
 %% Create cell array containing subject responses
 for i = 1:length(conditionsList)
     for ii = 1:nSubjects
@@ -104,7 +106,6 @@ for k = 1:4                                        % Responses
     end
     
     figure
-    sPlotID = [1 5 9 2 6 10 3 7 11 4 8 12];
     sPlotct = 0;
     for kk = 1:4                                   % R/P/L/Avg
         if kk == 1
