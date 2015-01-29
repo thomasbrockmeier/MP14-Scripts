@@ -17,6 +17,7 @@ familiar = zeros(nSubjects, 1);
 concetration = zeros(nSubjects, 1);
 eyesOpen = zeros(nSubjects, 1);
 
+% Placement location of DFA bin subplots
 sPlotID = [1 5 9 2 6 10 3 7 11 4 8 12];
 
 %% Create cell array containing subject responses
@@ -25,6 +26,7 @@ for i = 1:length(conditionsList)
         % Load biomarkers
         fileNameCond = files(i + 15 * (ii - 1)).name;
         bioMarkers = load([pwd '\' fileNameCond]);
+        disp([pwd '\' fileNameCond])
         responses = bioMarkers.rsq.Answers;
         
         % Retrieve subject's responses
