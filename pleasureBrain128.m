@@ -1,4 +1,4 @@
-function [ r, p ] = pleasureBrain128()
+function [ rP, pP, rS, pS, rK, pK ] = pleasureBrain128()
 
 %% Call vars
 filesMUS = dir([pwd '\*_analysis.mat']);
@@ -8,8 +8,14 @@ nSubjects = length(filesECR);
 bioMarkersNamesDFA = { 'DFA_1_4Hz'; 'DFA_4_8Hz'; 'DFA_8_13Hz'; 'DFA_13_30Hz'; ...
     'DFA_30_45Hz'; 'DFA_55_125Hz'; 'DFA_60_90Hz' };
 
-r = zeros(3, length(bioMarkersNamesDFA), 128);
-p = zeros(3, length(bioMarkersNamesDFA), 128);
+rP = zeros(3, length(bioMarkersNamesDFA), 128);
+pP = zeros(3, length(bioMarkersNamesDFA), 128);
+
+rS = zeros(3, length(bioMarkersNamesDFA), 128);
+pS = zeros(3, length(bioMarkersNamesDFA), 128);
+
+rK = zeros(3, length(bioMarkersNamesDFA), 128);
+pK = zeros(3, length(bioMarkersNamesDFA), 128);
 
 % bioMarkersNamesAmp = { 'amplitude_1_4_Hz'; 'amplitude_4_8_Hz'; 'amplitude_8_13_Hz'; ...
 %     'amplitude_13_30_Hz'; 'amplitude_30_45_Hz'; 'amplitude_55_125_Hz' };
@@ -78,11 +84,24 @@ for q = 1:128
         end
         
         % Calculate correlation coefficients
-        [ r(1, j, q), p(1, j, q) ] = corr(lowBrainDFA_resp(:, 1), lowBrainDFA_resp(:, 7), 'type', 'Kendall');
-        [ r(2, j, q), p(2, j, q) ] = corr(midBrainDFA_resp(:, 1), midBrainDFA_resp(:, 7), 'type', 'Kendall');
-        [ r(3, j, q), p(3, j, q) ] = corr(highBrainDFA_resp(:, 1), highBrainDFA_resp(:, 7), 'type', 'Kendall');
+        [ rP(1, j, q), pP(1, j, q) ] = corr(lowBrainDFA_resp(:, 1), lowBrainDFA_resp(:, 7), 'type', 'Pearson');
+        [ rP(2, j, q), pP(2, j, q) ] = corr(midBrainDFA_resp(:, 1), midBrainDFA_resp(:, 7), 'type', 'Pearson');
+        [ rP(3, j, q), pP(3, j, q) ] = corr(highBrainDFA_resp(:, 1), highBrainDFA_resp(:, 7), 'type', 'Pearson');
+        
+        [ rS(1, j, q), pS(1, j, q) ] = corr(lowBrainDFA_resp(:, 1), lowBrainDFA_resp(:, 7), 'type', 'Spearman');
+        [ rS(2, j, q), pS(2, j, q) ] = corr(midBrainDFA_resp(:, 1), midBrainDFA_resp(:, 7), 'type', 'Spearman');
+        [ rS(3, j, q), pS(3, j, q) ] = corr(highBrainDFA_resp(:, 1), highBrainDFA_resp(:, 7), 'type', 'Spearman');
+        
+        [ rK(1, j, q), pK(1, j, q) ] = corr(lowBrainDFA_resp(:, 1), lowBrainDFA_resp(:, 7), 'type', 'Kendall');
+        [ rK(2, j, q), pK(2, j, q) ] = corr(midBrainDFA_resp(:, 1), midBrainDFA_resp(:, 7), 'type', 'Kendall');
+        [ rK(3, j, q), pK(3, j, q) ] = corr(highBrainDFA_resp(:, 1), highBrainDFA_resp(:, 7), 'type', 'Kendall');
     end
     
     disp('OK')
 end
+
+%% Plot
+pleasureBrain128PLOTTER(rP, pP, 'Pearson')
+pleasureBrain128PLOTTER(rS, pS, 'Spearman')
+pleasureBrain128PLOTTER(rK, pK, 'Kendall')
 end
