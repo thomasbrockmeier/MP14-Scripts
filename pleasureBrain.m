@@ -8,11 +8,11 @@ nSubjects = length(filesECR);
 bioMarkersNamesDFA = { 'DFA_1_4Hz'; 'DFA_4_8Hz'; 'DFA_8_13Hz'; 'DFA_13_30Hz'; ...
     'DFA_30_45Hz'; 'DFA_55_125Hz'; 'DFA_60_90Hz' };
 
-bioMarkersNamesAmp = { 'amplitude_1_4_Hz'; 'amplitude_4_8_Hz'; 'amplitude_8_13_Hz'; ...
-    'amplitude_13_30_Hz'; 'amplitude_30_45_Hz'; 'amplitude_55_125_Hz' };
-
-bioMarkersNamesAmpN = { 'amplitude_1_4_Hz_Normalized'; 'amplitude_4_8_Hz_Normalized'; 'amplitude_8_13_Hz_Normalized'; ...
-    'amplitude_13_30_Hz_Normalized'; 'amplitude_30_45_Hz_Normalized'; 'amplitude_55_125_Hz_Normalized' };
+% bioMarkersNamesAmp = { 'amplitude_1_4_Hz'; 'amplitude_4_8_Hz'; 'amplitude_8_13_Hz'; ...
+%     'amplitude_13_30_Hz'; 'amplitude_30_45_Hz'; 'amplitude_55_125_Hz' };
+% 
+% bioMarkersNamesAmpN = { 'amplitude_1_4_Hz_Normalized'; 'amplitude_4_8_Hz_Normalized'; 'amplitude_8_13_Hz_Normalized'; ...
+%     'amplitude_13_30_Hz_Normalized'; 'amplitude_30_45_Hz_Normalized'; 'amplitude_55_125_Hz_Normalized' };
 
 targetElectrodes = [ 11, 62, 75, 129 ];           % Fz, Pz, Oz, Cz
 
@@ -44,29 +44,22 @@ for j = 1:length(bioMarkersNamesDFA)
         ECRDFA(jj) = eval(strcat('brainResponseECR.', 'S', num2str(jj), '.', bioMarkersNamesDFA{j}, '.ECR'));
     end
     
-    [ ECRDFASort, ECRDFAIdx ] = sort(ECRDFA);
+    [ ~, ECRDFAIdx ] = sort(ECRDFA);
     
     % Subject IDs of participants with low, mid, high ECR DFA
     ECRDFALowID = ECRDFAIdx(1:9);
     ECRDFAMidID = ECRDFAIdx(10:19);
     ECRDFAHighID = ECRDFAIdx(20:28);
     
-    % Read the filenames (15 conditions) for all participants in each of
-    % the three vectors. Create vector of music DFAs and second vector of
-    % corresponding ratings. Sort DFAs, then reorder ratings so that they
-    % match the DFAs again. Plot against each other.
-    %
-    % Other possibility: correlate vectors to get scatter plot.
-    %
-    % Do so for all biomarkers (DFA only?)
+    % Create response and music DFA matrices for each ECR DFA condition
     lowBrainDFA_resp = zeros(15 * 9, 8);
     midBrainDFA_resp = zeros(15 * 10, 8);
     highBrainDFA_resp = zeros(15 * 9, 8);
     cc = 0;
-    for jjj = 1:length(ECRDFAMidID)
-        for jjjj = 0:14
+    for jjj = 1:length(ECRDFAMidID)     % N subjects per condition (9 or 10)
+        for jjjj = 0:14                 % N MUS_analysis.mat files per subject
             cc = cc + 1;
-            if jjj < length(ECRDFAMidID)
+            if jjj < length(ECRDFAMidID)% Mid has one extra subject
                 bioMarkersMUS = load(filesMUS(ECRDFALowID(jjj) * 15 - 14 + jjjj).name);
                 lowBrainDFA_resp(cc, :) = bioMarkersMUS.rsq.Answers';
                 
@@ -81,15 +74,13 @@ for j = 1:length(bioMarkersNamesDFA)
             end
         end
     end
+    
     disp(bioMarkersNamesDFA{j})
-    [ r, p ] = corr(lowBrainDFA_resp(:, 1), lowBrainDFA_resp(:, 7), 'type', 'Spearman');
-    disp(r)
-    disp(p)
-    [ r, p ] = corr(midBrainDFA_resp(:, 1), midBrainDFA_resp(:, 7), 'type', 'Spearman');
-    disp(r)
-    disp(p)
-    [ r, p ] = corr(highBrainDFA_resp(:, 1), highBrainDFA_resp(:, 7), 'type', 'Spearman');
-    disp(r)
-    disp(p)
+    [ r, p ] = corr(lowBrainDFA_resp(:, 1), lowBrainDFA_resp(:, 7), 'type', 'Kendall');
+    disp({'Coeff:' r 'p:' p})
+    [ r, p ] = corr(midBrainDFA_resp(:, 1), midBrainDFA_resp(:, 7), 'type', 'Kendall');
+    disp({'Coeff:' r 'p:' p})
+    [ r, p ] = corr(highBrainDFA_resp(:, 1), highBrainDFA_resp(:, 7), 'type', 'Kendall');
+    disp({'Coeff:' r 'p:' p})
 end
 end
