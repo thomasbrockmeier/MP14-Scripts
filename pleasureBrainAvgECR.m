@@ -3,7 +3,7 @@ function [ rP, pP, rS, pS, rK, pK ] = pleasureBrainAvgECR(behaVar, DFAVar)
     % (:, 1) = Pleasurability rating        % (:, 5) = DFA Rhythm
     % (:, 2) = Familiarity rating           % (:, 6) = DFA Pitch
     % (:, 3) = Concentratedness rating      % (:, 7) = DFA Loudness (Mono)
-    % (:, 4) = Eyes opened/closed rating    % (:, 6) = Mean DFA music
+    % (:, 4) = Eyes opened/closed rating    % (:, 8) = Mean DFA music
 
 filesMUS = dir([pwd '\*_analysis.mat']);
 filesECR = dir([pwd '\ecr\*_analysis.mat']);
