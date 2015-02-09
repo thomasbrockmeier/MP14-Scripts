@@ -23,8 +23,6 @@ pK = zeros(3, length(bioMarkersNamesDFA), 128);
 % bioMarkersNamesAmpN = { 'amplitude_1_4_Hz_Normalized'; 'amplitude_4_8_Hz_Normalized'; 'amplitude_8_13_Hz_Normalized'; ...
 %     'amplitude_13_30_Hz_Normalized'; 'amplitude_30_45_Hz_Normalized'; 'amplitude_55_125_Hz_Normalized' };
 
-targetElectrodes = [ 11, 62, 75, 129 ];           % Fz, Pz, Oz, Cz
-
 %% Loop for all electrodes
 for q = 1:128
     disp(['Computing channel ' num2str(q) '...'])
